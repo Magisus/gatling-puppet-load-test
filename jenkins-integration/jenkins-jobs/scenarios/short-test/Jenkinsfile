@@ -7,17 +7,6 @@ node {
     sh "mkdir greetings; echo 'hi' > greetings/hi.txt"
     sh "mkdir -p greetings/foo/bar; echo 'foo' > greetings/foo/bar/foo.txt"
 
-    stage '002-upload-to-s3'
-    step([
-        $class: 'S3BucketPublisher',
-        entries: [
-            [
-                bucket: 'puppetserver-perf-data',
-                selectedRegion: 'us-west-2',
-                sourceFile: 'hello.txt, hello_again.txt, greetings/**',
-                storageClass: 'STANDARD',
-            ]
-        ],
-        profileName: 'Jenkins_coordinator_machine_account'
-    ])
+    stage '002-delete-files'
+    cleanWs()
 }
